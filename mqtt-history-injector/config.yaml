@@ -1,0 +1,38 @@
+name: "MQTT History Injector"
+version: "1.0.0"
+slug: "mqtt_history_injector"
+description: "Injects historical sensor data from MQTT directly into Home Assistant history and creates missing entities"
+arch:
+  - armhf
+  - armv7
+  - aarch64
+  - amd64
+  - i386
+startup: application
+boot: auto
+map:
+  - config:rw
+options:
+  mqtt_host: "core-mosquitto"
+  mqtt_port: 1883
+  mqtt_username: ""
+  mqtt_password: ""
+  mqtt_topic: "homeassistant/history/#"
+  ha_database_path: "/config/home-assistant_v2.db"
+  ha_api_url: "http://supervisor/core/api"
+  ha_token: ""
+  max_timestamp_offset_days: 30
+  default_entity_id_prefix: "sensor."
+  create_missing_entities: true
+schema:
+  mqtt_host: str
+  mqtt_port: int
+  mqtt_username: str
+  mqtt_password: str
+  mqtt_topic: str
+  ha_database_path: str
+  ha_api_url: str
+  ha_token: str
+  max_timestamp_offset_days: int(1,365)
+  default_entity_id_prefix: str
+  create_missing_entities: bool
