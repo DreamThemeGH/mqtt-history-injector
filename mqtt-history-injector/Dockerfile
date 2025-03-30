@@ -1,12 +1,17 @@
 ARG BUILD_FROM
 FROM $BUILD_FROM
 
-# Установка зависимостей только из репозитория Alpine
-# py3-paho-mqtt и py3-requests доступны в репозитории Alpine
-RUN apk add --no-cache python3 py3-pip sqlite py3-requests py3-paho-mqtt
+# Установка необходимых пакетов
+RUN apk add --no-cache python3 py3-pip sqlite
 
-# Copy data
-COPY run.py /
-RUN chmod a+x /run.py
+# Копирование Python-скрипта
+COPY run.py /usr/bin/
+RUN chmod a+x /usr/bin/run.py
 
-CMD [ "python3", "/run.py" ]
+# Настройка папки для s6-overlay
+WORKDIR /
+COPY rootfs /
+
+# Сделаем скрипты запуска исполняемыми
+RUN chmod +x /etc/services.d/mqtt-history-injector/run \
+    && chmod +x /etc/services.d/mqtt-history-injector/finish

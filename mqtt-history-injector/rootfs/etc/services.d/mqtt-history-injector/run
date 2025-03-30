@@ -1,0 +1,8 @@
+#!/usr/bin/with-contenv bashio
+bashio::log.info "Запуск MQTT History Injector..."
+
+# Установка Python-зависимостей
+pip3 install --no-cache-dir paho-mqtt requests
+
+# Запуск основного скрипта
+python3 /usr/bin/run.py
