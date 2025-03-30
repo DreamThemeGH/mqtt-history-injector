@@ -1,17 +1,19 @@
 ARG BUILD_FROM
 FROM $BUILD_FROM
 
-# Установка необходимых пакетов
+# Установка системных зависимостей
 RUN apk add --no-cache python3 py3-pip sqlite
 
-# Копирование Python-скрипта
-COPY run.py /usr/bin/
-RUN chmod a+x /usr/bin/run.py
+# Создание директории для приложения
+WORKDIR /app
 
-# Настройка папки для s6-overlay
-WORKDIR /
+# Копирование Python скрипта
+COPY run.py /app/
+
+# Копирование s6-overlay конфигурации
 COPY rootfs /
 
-# Сделаем скрипты запуска исполняемыми
-RUN chmod +x /etc/services.d/mqtt-history-injector/run \
-    && chmod +x /etc/services.d/mqtt-history-injector/finish
+# Установка прав на исполнение
+RUN chmod a+x /app/run.py \
+    && chmod a+x /etc/services.d/mqtt-history-injector/run \
+    && chmod a+x /etc/services.d/mqtt-history-injector/finish
