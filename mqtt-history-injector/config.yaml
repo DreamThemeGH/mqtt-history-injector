@@ -1,5 +1,5 @@
 name: "MQTT History Injector"
-version: "1.0.0"
+version: "1.0.1"
 slug: "mqtt_history_injector"
 description: "Injects historical sensor data from MQTT directly into Home Assistant history and creates missing entities"
 arch:
