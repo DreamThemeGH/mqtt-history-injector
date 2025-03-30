@@ -1,21 +1,27 @@
 ARG BUILD_FROM
 FROM $BUILD_FROM
 
-# Установка системных зависимостей
+# Установка системных зависимостей (минимальный набор)
 RUN apk add --no-cache \
     python3 \
     py3-pip \
-    sqlite \
-    build-base \
-    python3-dev \
-    libffi-dev \
-    openssl-dev \
-    cargo
+    sqlite
 
-# Обновление pip и установка Python-зависимостей
-RUN python3 -m pip install --upgrade pip && \
-    pip3 install --no-cache-dir --upgrade wheel && \
-    pip3 install --no-cache-dir paho-mqtt requests
+# Альтернатива 1: Установка с использованием предварительно собранных пакетов
+RUN pip3 install --no-cache-dir --prefer-binary \
+    paho-mqtt==1.6.1 \
+    requests==2.31.0
+
+# ИЛИ Альтернатива 2: Если первая не работает, используем этот вариант
+# RUN apk add --no-cache --virtual .build-deps \
+#     build-base \
+#     python3-dev \
+#     libffi-dev \
+#     openssl-dev \
+#     && pip3 install --no-cache-dir \
+#     paho-mqtt==1.6.1 \
+#     requests==2.31.0 \
+#     && apk del .build-deps
 
 # Создание директории для приложения
 WORKDIR /app
