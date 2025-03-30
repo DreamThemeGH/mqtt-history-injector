@@ -1,10 +1,9 @@
 ARG BUILD_FROM
 FROM $BUILD_FROM
 
-# Install requirements with explicit upgrade of pip first
-RUN apk add --no-cache python3 py3-pip sqlite gcc python3-dev musl-dev
-RUN pip3 install --no-cache-dir --upgrade pip
-RUN pip3 install --no-cache-dir paho-mqtt requests
+# Установка зависимостей только из репозитория Alpine
+# py3-paho-mqtt и py3-requests доступны в репозитории Alpine
+RUN apk add --no-cache python3 py3-pip sqlite py3-requests py3-paho-mqtt
 
 # Copy data
 COPY run.py /
